@@ -7,12 +7,9 @@
 
 import GoogleMaps
 import GoogleNavigation
-import GooglePlaces
 
 class CTMapView: GMSMapView {
     lazy var selectMaker: GMSMarker = buildMaker(Asset.Icons.maker.image)
-
-    lazy var placesMaker = [GMSMarker]()
     private var locationManager = CLLocationManager()
 
     var destination: CLLocationCoordinate2D? {
@@ -109,20 +106,6 @@ extension CTMapView {
     func zoomOut() {
         let cameraUpdate = GMSCameraUpdate.zoomOut()
         animate(with: cameraUpdate)
-    }
-
-    func showPlaces(_ places: [GMSPlace]) {
-        placesMaker.forEach { item in
-            item.map = nil
-        }
-        placesMaker.removeAll()
-        places.forEach { place in
-            let maker = buildMaker(Asset.Icons.maker.image)
-            maker.map = self
-            maker.position = place.coordinate
-            maker.title = place.name
-            placesMaker.append(maker)
-        }
     }
 
     func showRoutes(_ detailModel: CTGuidanceDetailModel?) {

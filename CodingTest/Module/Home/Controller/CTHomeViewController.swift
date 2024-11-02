@@ -46,8 +46,6 @@ extension CTHomeViewController {
         self.itemView.eventModel.subscribe(onNext: { [weak self] event in
             self?.configViewEvent(event)
         }).disposed(by: rx.disposeBag)
-
-        self.viewModel.placeResults.bind(to: self.itemView.placeResults).disposed(by: rx.disposeBag)
     }
 
     func configViewModelEvent(_ event: CTHomeViewModelEventType) {
@@ -69,8 +67,6 @@ extension CTHomeViewController {
                 self.reverseGeocodeByOrigin(coordinate)
             case .travelModeChange:
                 self.travelModeChange()
-            case .searchByKeyword(let keyword, let coordinate):
-                self.viewModel.searchByKeyword(keyword, coordinate)
             default: break
         }
     }

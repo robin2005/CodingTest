@@ -7,7 +7,6 @@
 
 import GoogleMaps
 import GoogleNavigation
-import GooglePlaces
 import Logging
 import UIKit
 
@@ -23,7 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func configMap() {
         GMSServices.provideAPIKey(CTGoogleMapsKey)
-        GMSPlacesClient.provideAPIKey(CTGoogleMapsKey)
     }
 
     func configRootController() {

@@ -9,7 +9,6 @@
 import CoreLocation
 import GoogleMaps
 import GoogleNavigation
-import GooglePlaces
 import RxRelay
 
 // ViewModel 事件回调
@@ -22,7 +21,6 @@ class CTHomeViewModel: ALOBaseViewModel {
     lazy var permission = CTPermissionUtils()
     lazy var geocoder = GMSGeocoder()
     lazy var eventModel: BehaviorRelay<CTHomeViewModelEventType> = BehaviorRelay(value: .none)
-    lazy var placeResults: BehaviorRelay<[GMSPlace]> = BehaviorRelay(value: [])
 }
 
 // MARK: - Permissions
@@ -64,26 +62,9 @@ extension CTHomeViewModel {
     }
 }
 
+// # Mark - 地理位置反编码
 extension CTHomeViewModel {
     func reverseGeocodeCoordinate(_ coordinate: CLLocationCoordinate2D, completionHandler: @escaping GMSReverseGeocodeCallback) {
         geocoder.reverseGeocodeCoordinate(coordinate, completionHandler: completionHandler)
-    }
-
-    func searchByKeyword(_ keyword: String, _ location: CLLocationCoordinate2D) {
-        let myProperties = [GMSPlaceProperty.name, GMSPlaceProperty.coordinate].map { $0.rawValue }
-        let request = GMSPlaceSearchByTextRequest(textQuery: keyword, placeProperties: myProperties)
-        let callback: GMSPlaceSearchNearbyResultCallback = { [weak self] results, error in
-            guard let self, error == nil else {
-                if let error {
-                    CTLog.info(error.localizedDescription)
-                }
-                return
-            }
-            guard let results = results else {
-                return
-            }
-            self.placeResults.accept(results)
-        }
-        GMSPlacesClient.shared().searchByText(with: request, callback: callback)
     }
 }

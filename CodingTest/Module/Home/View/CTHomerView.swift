@@ -8,8 +8,6 @@
 import CoreLocation
 import GoogleMaps
 import GoogleNavigation
-import GooglePlaces
-import Logging
 import NSObject_Rx
 import RxCocoa
 import RxSwift
@@ -23,14 +21,12 @@ enum CTHomeViewEventType {
     case reverseGeocodeByDestination(_ coordinate: CLLocationCoordinate2D)
     case reverseGeocodeByOrigin(_ coordinate: CLLocationCoordinate2D)
     case travelModeChange
-    case searchByKeyword(_ keyword: String, _ coordinate: CLLocationCoordinate2D)
     case none
 }
 
 class CTHomeView: CTBaseView {
     private lazy var mapView = bulidMapView()
     private lazy var bottomBar = CTHomeBottomBarView()
-    private lazy var searchBar = CTHomeSearchBarView()
     private lazy var rightMenuBar = CTHomerMenuBarView()
     private lazy var loadingView = CTHomeLoadingView()
 
@@ -39,8 +35,6 @@ class CTHomeView: CTBaseView {
     var travelMode: BehaviorRelay<GMSNavigationTravelMode> = BehaviorRelay(value: .walking)
     private var isGuidance: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     private var isLoading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
-
-    lazy var placeResults: BehaviorRelay<[GMSPlace]> = BehaviorRelay(value: [])
 
     private var detailModel = CTGuidanceDetailModel()
     private var preNavState: GMSNavigationNavState?
@@ -60,7 +54,6 @@ extension CTHomeView {
         addSubview(bottomBar)
         addSubview(loadingView)
         addSubview(rightMenuBar)
-        addSubview(searchBar)
         configEvent()
         copnfigSubscribe()
     }
@@ -80,11 +73,6 @@ extension CTHomeView {
         loadingView.snp.remakeConstraints { maker in
             maker.centerX.equalToSuperview()
             maker.bottom.left.equalToSuperview()
-        }
-        searchBar.snp.remakeConstraints { maker in
-            maker.centerX.equalToSuperview()
-            maker.right.equalTo(-16)
-            maker.top.equalTo(UIScreen.topStatus)
         }
     }
 }
@@ -111,7 +99,6 @@ extension CTHomeView {
         bottomBar.goBtn.addTarget(self, action: #selector(startGuidance), for: .touchUpInside)
         rightMenuBar.closeBtn.addTarget(self, action: #selector(stopGuidance), for: .touchUpInside)
         rightMenuBar.travelModeBtn.addTarget(self, action: #selector(travelModeChange), for: .touchUpInside)
-        searchBar.searchBtn.addTarget(self, action: #selector(searchAction), for: .touchUpInside)
     }
 
     // 配置订阅事件
@@ -138,25 +125,10 @@ extension CTHomeView {
                 self?.rightMenuBar.travelModeBtn.isHidden = false
             }
         }).disposed(by: rx.disposeBag)
-
-        placeResults.subscribe(onNext: { [weak self] placeResults in
-            self?.mapView.showPlaces(placeResults)
-        }).disposed(by: rx.disposeBag)
     }
 }
 
 extension CTHomeView {
-    // 搜索
-    @objc func searchAction() {
-        guard let coordinate = mapView.myLocation?.coordinate else { return }
-        if let keyword = searchBar.textField.text, !keyword.isEmpty {
-            searchBar.endEditing(false)
-            eventModel.accept(.searchByKeyword(keyword, coordinate))
-        } else {
-            makeToast("keyword is empty")
-        }
-    }
-
     // 导航模式
     @objc func travelModeChange() {
         eventModel.accept(.travelModeChange)
@@ -236,19 +208,13 @@ extension CTHomeView {
 // MARK: - GMSMapViewDelegate
 
 extension CTHomeView: GMSMapViewDelegate {
-    func mapView(_ mapView: GMSMapView, willMove gesture: Bool) {
-        searchBar.endEditing(false)
-    }
-
     func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        searchBar.endEditing(false)
         if !isGuidance.value {
             eventModel.accept(.reverseGeocodeByDestination(position.target))
         }
     }
 
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        searchBar.endEditing(false)
         if !isGuidance.value {
             eventModel.accept(.reverseGeocodeByDestination(coordinate))
         }

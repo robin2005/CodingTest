@@ -39,7 +39,16 @@ public extension UIScreen {
     /// 通过高度判断是不是 iPhone X 系列（X, XS 高度812，宽度375；XR，XS Max 高度896，宽度414）
     // 获取底部的安全距离，全面屏手机为34pt，非全面屏手机为0pt
     static var isIPhoneX: Bool {
-        let bottomSafeAreaHeight = UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0.0
+        let keyWindow: UIWindow? = {
+            if #available(iOS 13.0, *) {
+                return UIApplication.shared.connectedScenes.filter { $0.activationState == .foregroundActive }
+                    .compactMap { $0 as? UIWindowScene }.first?.windows
+                    .filter { $0.isKeyWindow }.first
+            } else {
+                return UIApplication.shared.keyWindow!
+            }
+        }()
+        let bottomSafeAreaHeight = keyWindow?.safeAreaInsets.bottom ?? 0.0
         return bottomSafeAreaHeight > 0
     }
 
