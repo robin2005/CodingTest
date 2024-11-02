@@ -19,6 +19,13 @@
 * Toast      toast提示
 * Reachability  网络监听
 
+3. 目录说明
+
+* Common: 配置Appkey文件及swift-gen自动生成文件
+* Extensions：扩展文件夹
+* Module：功能模块文件夹
+* Utils：常用工具文件夹
+
 ## 开发应用程序的步骤
 
 * 仔细阅读开发需求，整理出自己理解到的需求点并思考用什么方式实现
