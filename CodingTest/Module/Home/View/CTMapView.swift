@@ -20,7 +20,6 @@ class CTMapView: GMSMapView {
 
     convenience init(_ frame: CGRect) {
         let options = GMSMapViewOptions()
-        options.camera = GMSCameraPosition(latitude: 1.285, longitude: 103.848, zoom: 12)
         options.frame = frame
         self.init(options: options)
         self.isMyLocationEnabled = true
@@ -108,23 +107,26 @@ extension CTMapView {
 
     func showRoutes(_ detailModel: CTGuidanceDetailModel?) {
         clear()
-        guard let path = GMSPath(fromEncodedPath: detailModel?.path ?? "") else { return }
+        guard let detailModel = detailModel else { return }
+        let path = detailModel.mutablePath
         let polyline = GMSPolyline(path: path)
         polyline.strokeColor = Asset.Colors.buttonColor.color
         polyline.strokeWidth = 5
         polyline.map = self
 
-        guard let origin = detailModel?.origin.toCoordinate2D(),
-              let destination = detailModel?.destination.toCoordinate2D() else { return }
-        let camera = GMSCameraPosition.camera(withTarget: origin, zoom: 15)
-        animate(to: camera)
-        let origintMaker: GMSMarker = buildMaker(Asset.Icons.origin.image)
-        origintMaker.position = origin
-        origintMaker.title = detailModel?.origin.title
-        origintMaker.map = self
-        let destinationMaker: GMSMarker = buildMaker(Asset.Icons.destination.image)
-        destinationMaker.position = destination
-        destinationMaker.map = self
-        destinationMaker.title = detailModel?.destination.title
+        if path.count() >= 2 {
+            let origin = path.coordinate(at: 0)
+            let destination = path.coordinate(at: path.count() - 1)
+            let camera = GMSCameraPosition.camera(withTarget: origin, zoom: 15)
+            animate(to: camera)
+            let origintMaker: GMSMarker = buildMaker(Asset.Icons.origin.image)
+            origintMaker.position = origin
+            origintMaker.title = detailModel.originTitle
+            origintMaker.map = self
+            let destinationMaker: GMSMarker = buildMaker(Asset.Icons.destination.image)
+            destinationMaker.position = destination
+            destinationMaker.map = self
+            destinationMaker.title = detailModel.destinationTitle
+        }
     }
 }

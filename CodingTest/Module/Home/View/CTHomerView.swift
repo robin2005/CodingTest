@@ -35,7 +35,6 @@ class CTHomeView: CTBaseView {
     private var isLoading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
 
     private var detailModel = CTGuidanceDetailModel()
-    private var preNavState: GMSNavigationNavState?
 
     var eventModel: BehaviorRelay<CTHomeViewEventType> = BehaviorRelay(value: .none)
     var travelMode: BehaviorRelay<GMSNavigationTravelMode> = BehaviorRelay(value: .walking)
@@ -141,10 +140,9 @@ extension CTHomeView {
                 self?.rightMenuBar.closeBtn.isHidden = false
                 self?.rightMenuBar.travelModeBtn.isHidden = true
                 self?.detailModel = CTGuidanceDetailModel()
-                if let coordinate = self?.mapView.myLocation?.coordinate {
-                    self?.detailModel.origin = coordinate.toDetailPoint()
-                }
+                self?.detailModel.start = Date().timeIntervalSince1970
             } else {
+                self?.detailModel.end = Date().timeIntervalSince1970
                 self?.rightMenuBar.closeBtn.isHidden = true
                 self?.rightMenuBar.travelModeBtn.isHidden = false
             }
@@ -160,13 +158,13 @@ extension CTHomeView {
 
     // 导航详情
     @objc func goGuidanceDetail() {
-        guard let currentRouteLeg = mapView.navigator?.currentRouteLeg else { return }
-        detailModel.path = currentRouteLeg.path?.encodedPath() ?? ""
-        detailModel.destination = currentRouteLeg.destinationCoordinate.toDetailPoint()
-        detailModel.origin.title = originAddress?.lines?.joined(separator: " ") ?? ""
-        detailModel.destination.title = selectAddress?.lines?.joined(separator: " ") ?? ""
-        eventModel.accept(.goGuidanceDetail(detailModel))
         stopGuidance()
+        // 计算路径长度
+        detailModel.distance = GMSGeometryLength(detailModel.mutablePath)
+        detailModel.originTitle = originAddress?.lines?.joined(separator: " ") ?? ""
+        detailModel.destinationTitle = selectAddress?.lines?.joined(separator: " ") ?? ""
+        eventModel.accept(.goGuidanceDetail(detailModel))
+        CTLog.info("goGuidanceDetail")
     }
 
     // 开始导航
@@ -232,12 +230,6 @@ extension CTHomeView {
 // MARK: - GMSMapViewDelegate
 
 extension CTHomeView: GMSMapViewDelegate {
-    func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
-        if !isGuidance.value {
-            eventModel.accept(.reverseGeocodeByDestination(position.target))
-        }
-    }
-
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         if !isGuidance.value {
             eventModel.accept(.reverseGeocodeByDestination(coordinate))
@@ -260,19 +252,7 @@ extension CTHomeView: GMSNavigatorListener {
 
     // 检测到达事件
     func navigator(_ navigator: GMSNavigator, didArriveAt waypoint: GMSNavigationWaypoint) {
-        preNavState = nil
         goGuidanceDetail()
-    }
-
-    // 检测到达事件
-    func navigator(_ navigator: GMSNavigator, didUpdate navInfo: GMSNavigationNavInfo) {
-        if navInfo.navState != preNavState {
-            detailModel.time += navInfo.currentStep?.timeFromPrevStepSeconds ?? 0
-            detailModel.distance += navInfo.currentStep?.distanceFromPrevStepMeters ?? 0
-            preNavState = navInfo.navState
-            CTLog.info("didUpdate navInfo at \(navInfo.navState.rawValue) ")
-            CTLog.info("currentStep : \(navInfo.currentStep?.description ?? "")")
-        }
     }
 }
 
@@ -282,5 +262,9 @@ extension CTHomeView: GMSRoadSnappedLocationProviderListener {
     func locationProvider(_ locationProvider: GMSRoadSnappedLocationProvider, didUpdate location: CLLocation) {
         let info = String(format: "Road snapped location: (%.8f, %.8f)", location.coordinate.latitude, location.coordinate.longitude)
         CTLog.info(info)
+        // 计算路线
+        if isGuidance.value && location.coordinate.toString() != kCLLocationCoordinate2DInvalid.toString() {
+            detailModel.mutablePath.add(location.coordinate)
+        }
     }
 }

@@ -5,35 +5,32 @@
 //  Created by jdm on 11/1/24.
 //
 
+import GoogleMaps
 import GoogleNavigation
 
 // 导航线路数据
-struct CTGuidanceDetailModel: Codable {
-    // 起点
-    var origin = CTGuidanceDetailPoint()
-    // 终点
-    var destination = CTGuidanceDetailPoint()
-    // 总时间
-    var time: TimeInterval = 0
+struct CTGuidanceDetailModel {
+    // 起点名称
+    var originTitle = ""
+    // 终点名称
+    var destinationTitle = ""
     // 总距离
     var distance: CLLocationDistance = 0
-    // 线路字符串
-    var path: String = ""
-}
-
-struct CTGuidanceDetailPoint: Codable {
-    var latitude: CLLocationDegrees = 0
-    var longitude: CLLocationDegrees = 0
-    var title = ""
-
-    func toCoordinate2D() -> CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    // 路线
+    var mutablePath = GMSMutablePath()
+    // 结束
+    var end: TimeInterval = 0
+    // 开始
+    var start: TimeInterval = 0
+    // 总时间
+    var time: TimeInterval {
+        return end - start
     }
 }
 
 extension CLLocationCoordinate2D {
-    func toDetailPoint() -> CTGuidanceDetailPoint {
-        return CTGuidanceDetailPoint(latitude: latitude, longitude: longitude)
+    func toString() -> String {
+        return "\(latitude)\(longitude)"
     }
 }
 
@@ -65,5 +62,9 @@ extension Double {
             return "0 km"
         }
         return String(format: "%0.2f km", self / 1000)
+    }
+
+    func isNaN() -> Bool {
+        return isNaN || isInfinite
     }
 }
