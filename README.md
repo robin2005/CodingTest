@@ -44,7 +44,7 @@
 
 ## 应用程序的视频与截图
 
-<video src="Screenshots/video.mp4" autoplay="true" controls="controls" width="400" height="300">
+<video src="https://github.com/robin2005/CodingTest/blame/main/Screenshots/video.mp4" autoplay="true" controls="controls" width="400" height="300">
 </video>
 
 <img src="Screenshots/screenshot0.png" width="30%"/>
