@@ -8,7 +8,7 @@
 
 1. App 采用 MVVM + RXSwift架构模式，界面布局采用 SnipKit 
 
-2. 第三方SDK 
+2. 采用XCode Package管理第三方SDK，已下是引用的SDK
 
 * GoogleMaps 地图
 * GoogleNavigation 地图导航
@@ -35,8 +35,8 @@
 ## 应用程序的截图
 
 
-<img src="screenshots/screenshot0.png" />
-<img src="screenshots/screenshot1.png" />
-<img src="screenshots/screenshot2.png" />
-<img src="screenshots/screenshot3.png" />
-<img src="screenshots/screenshot4.png" />
+<img src="Screenshots/screenshot0.png" />
+<img src="Screenshots/screenshot1.png" />
+<img src="Screenshots/screenshot2.png" />
+<img src="Screenshots/screenshot3.png" />
+<img src="Screenshots/screenshot4.png" />
