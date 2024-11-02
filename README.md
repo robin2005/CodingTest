@@ -6,8 +6,10 @@
 
 ## 程序摘要
 
-1、App 采用 MVVM + RXSwift架构模式，界面布局采用 SnipKit 
-2、第三方SDK 
+1. App 采用 MVVM + RXSwift架构模式，界面布局采用 SnipKit 
+
+2. 第三方SDK 
+
 * GoogleMaps 地图
 * GoogleNavigation 地图导航
 * RxSwift    响应式编程
