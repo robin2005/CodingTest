@@ -17,6 +17,7 @@
 * swift-gen  自动生成资源文件代码
 * swift-log  日志记录
 * Toast      toast提示
+* Reachability  网络监听
 
 ## 开发应用程序的步骤
 

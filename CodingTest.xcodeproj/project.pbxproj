@@ -18,7 +18,6 @@
 		59BF2F302CD32BA200EBF324 /* Gen in Frameworks */ = {isa = PBXBuildFile; productRef = 59BF2F2F2CD32BA200EBF324 /* Gen */; };
 		59BF2F6B2CD37C1700EBF324 /* GoogleNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 59BF2F6A2CD37C1700EBF324 /* GoogleNavigation */; };
 		59BF2F6E2CD381F800EBF324 /* GooglePlaces in Frameworks */ = {isa = PBXBuildFile; productRef = 59BF2F6D2CD381F800EBF324 /* GooglePlaces */; };
-		59DB54482CD61C5300E45FCE /* FMDB in Frameworks */ = {isa = PBXBuildFile; productRef = 59DB54472CD61C5300E45FCE /* FMDB */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,7 +89,6 @@
 				598F9D522CD5C9B300673FD9 /* Logging in Frameworks */,
 				59BF2F6E2CD381F800EBF324 /* GooglePlaces in Frameworks */,
 				598F9D4D2CD5BF0F00673FD9 /* Toast in Frameworks */,
-				59DB54482CD61C5300E45FCE /* FMDB in Frameworks */,
 				59BF2F292CD3290700EBF324 /* NSObject-Rx in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,7 +160,6 @@
 				59BF2F6D2CD381F800EBF324 /* GooglePlaces */,
 				598F9D4C2CD5BF0F00673FD9 /* Toast */,
 				598F9D512CD5C9B300673FD9 /* Logging */,
-				59DB54472CD61C5300E45FCE /* FMDB */,
 				591A43512CD62DC400D1178D /* Reachability */,
 			);
 			productName = CodingTest;
@@ -257,7 +254,6 @@
 				59BF2F6C2CD3813300EBF324 /* XCRemoteSwiftPackageReference "ios-places-sdk" */,
 				598F9D4B2CD5BF0F00673FD9 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				598F9D502CD5C9B300673FD9 /* XCRemoteSwiftPackageReference "swift-log" */,
-				59DB54462CD61C5300E45FCE /* XCRemoteSwiftPackageReference "fmdb" */,
 				591A43502CD62DC400D1178D /* XCRemoteSwiftPackageReference "Reachability" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -713,14 +709,6 @@
 				minimumVersion = 9.1.0;
 			};
 		};
-		59DB54462CD61C5300E45FCE /* XCRemoteSwiftPackageReference "fmdb" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ccgus/fmdb";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.7.12;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -778,11 +766,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 59BF2F6C2CD3813300EBF324 /* XCRemoteSwiftPackageReference "ios-places-sdk" */;
 			productName = GooglePlaces;
-		};
-		59DB54472CD61C5300E45FCE /* FMDB */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 59DB54462CD61C5300E45FCE /* XCRemoteSwiftPackageReference "fmdb" */;
-			productName = FMDB;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

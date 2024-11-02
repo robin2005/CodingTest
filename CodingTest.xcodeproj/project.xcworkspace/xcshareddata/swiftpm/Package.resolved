@@ -1,15 +1,6 @@
 {
-  "originHash" : "c2f599d80cc964bfd273d4a4e3eec3b5a57e8e2247cc47bdb8085e0255d48824",
+  "originHash" : "bc747a5d1eed11783d483cd8834610b15928aad9637bd74caee542eba0922d1e",
   "pins" : [
-    {
-      "identity" : "fmdb",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/ccgus/fmdb",
-      "state" : {
-        "revision" : "1227a3fa2b9916bfd75fe380eb45cd210e69e251",
-        "version" : "2.7.12"
-      }
-    },
     {
       "identity" : "ios-maps-sdk",
       "kind" : "remoteSourceControl",
