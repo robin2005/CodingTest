@@ -22,6 +22,12 @@ class CTHomeViewController: CTBaseViewController {
         self.viewModel.startNotifier()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
+    
     deinit {
         self.viewModel.stopNotifier()
     }

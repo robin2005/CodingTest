@@ -25,6 +25,11 @@ class CTGuidanceDetailViewController: CTBaseViewController {
         configEventSubscribe()
         self.itemView.detailModel = self.detailModel
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
 }
 
 extension CTGuidanceDetailViewController {

@@ -15,7 +15,7 @@ enum CTGuidanceDetailViewEventType {
 
 class CTGuidanceDetailView: CTBaseView {
     private lazy var mapView = bulidMapView()
-    private lazy var rightMenuBar = CTHomerMenuBarView()
+    private lazy var rightMenuBar = CTHomeMenuBarView()
     private lazy var bottomBar = CTDetailBottomBarView()
     var eventModel: BehaviorRelay<CTGuidanceDetailViewEventType> = BehaviorRelay(value: .none)
 

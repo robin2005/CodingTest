@@ -27,7 +27,7 @@ enum CTHomeViewEventType {
 class CTHomeView: CTBaseView {
     private lazy var mapView = bulidMapView()
     private lazy var bottomBar = CTHomeBottomBarView()
-    private lazy var rightMenuBar = CTHomerMenuBarView()
+    private lazy var rightMenuBar = CTHomeMenuBarView()
     private lazy var loadingView = CTHomeLoadingView()
     private lazy var netErrView = bulidNetErr()
 

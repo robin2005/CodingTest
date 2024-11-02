@@ -1,5 +1,5 @@
 //
-//  CTHomerMenuBarView.swift
+//  CTHomeMenuBarView.swift
 //  CodingTest
 //
 //  Created by jdm on 10/31/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CTHomerMenuBarView: CTBaseView {
+class CTHomeMenuBarView: CTBaseView {
     // 放大一个等级
     lazy var zoomIn: UIButton = bulidIconButton(Asset.Icons.zoomIn.image)
     // 缩小一个等级
@@ -26,7 +26,7 @@ class CTHomerMenuBarView: CTBaseView {
     }
 }
 
-extension CTHomerMenuBarView {
+extension CTHomeMenuBarView {
     override func initUI() {
         super.initUI()
         backgroundColor = .clear
@@ -72,7 +72,7 @@ extension CTHomerMenuBarView {
     }
 }
 
-extension CTHomerMenuBarView {
+extension CTHomeMenuBarView {
     func bulidBGView() -> UIView {
         let radiusBGView = UIView()
         radiusBGView.backgroundColor = Asset.Colors.viewSubBgColor.color
