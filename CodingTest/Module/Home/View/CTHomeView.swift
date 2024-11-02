@@ -86,7 +86,7 @@ extension CTHomeView {
 }
 
 extension CTHomeView {
-    // 创建地图控件控件
+    // 创建地图控件
     func bulidMapView() -> CTMapView {
         let mapView = CTMapView(bounds)
         mapView.delegate = self
@@ -97,6 +97,7 @@ extension CTHomeView {
         return mapView
     }
 
+    // 网络差控件
     func bulidNetErr() -> UIButton {
         let button = UIButton(type: .custom)
         button.setImage(Asset.Icons.netErr.image, for: .normal)
@@ -151,12 +152,12 @@ extension CTHomeView {
 }
 
 extension CTHomeView {
-    // 导航模式
+    // 导航模式切换
     @objc func travelModeChange() {
         eventModel.accept(.travelModeChange)
     }
 
-    // 导航详情
+    // 跳转导航详情
     @objc func goGuidanceDetail() {
         stopGuidance()
         // 计算路径长度
@@ -192,12 +193,12 @@ extension CTHomeView {
         CTLog.info("stopGuidance")
     }
 
-    // 放大
+    // 地图放大
     @objc func zoomIn() {
         mapView.zoomIn()
     }
 
-    // 缩小
+    // 地图缩小
     @objc func zoomOut() {
         mapView.zoomOut()
     }
@@ -212,6 +213,7 @@ extension CTHomeView {
         CTLog.info("showCurLocation")
     }
 
+    // 配置选择地图标记
     func configSelectMarker() {
         guard let selectAddress = selectAddress else {
             bottomBar.isHidden = true
@@ -230,6 +232,7 @@ extension CTHomeView {
 // MARK: - GMSMapViewDelegate
 
 extension CTHomeView: GMSMapViewDelegate {
+    // 地图选点
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         if !isGuidance.value {
             eventModel.accept(.reverseGeocodeByDestination(coordinate))

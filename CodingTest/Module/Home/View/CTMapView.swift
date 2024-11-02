@@ -35,6 +35,7 @@ extension CTMapView {
 }
 
 extension CTMapView {
+    // 配置选择标记
     func configMaker() {
         guard let destination = destination else {
             selectMaker.map = nil
@@ -44,6 +45,7 @@ extension CTMapView {
         selectMaker.position = destination
     }
 
+    // 配置路由点
     func getDestinations() -> [GMSNavigationWaypoint] {
         guard let origin = myLocation?.coordinate,
               let destination = destination,
@@ -53,6 +55,7 @@ extension CTMapView {
         return [destinationPoint, originPoint]
     }
 
+    // 开始导航
     func startGuidance(_ callBack: ((GMSRouteStatus) -> Void)?) {
         let destinations = getDestinations()
         guard destinations.count == 2, let nav = navigator, let provider = roadSnappedLocationProvider else {
@@ -70,6 +73,7 @@ extension CTMapView {
         selectMaker.map = nil
     }
 
+    //  路由状态回调
     func destinationsCallBack(_ status: GMSRouteStatus) {
         if status == .OK {
             navigator?.isGuidanceActive = true
@@ -79,6 +83,7 @@ extension CTMapView {
         }
     }
 
+    //  停止导航
     func stopGuidance() {
         selectMaker.map = nil
         isNavigationEnabled = false
@@ -89,22 +94,26 @@ extension CTMapView {
         showCurLocation()
     }
 
+    //  显示我的位置
     func showCurLocation() {
         guard let coordinate = myLocation?.coordinate else { return }
         let camera = GMSCameraPosition.camera(withTarget: coordinate, zoom: 15)
         animate(to: camera)
     }
 
+    //  地图放大
     func zoomIn() {
         let cameraUpdate = GMSCameraUpdate.zoomIn()
         animate(with: cameraUpdate)
     }
 
+    //  地图缩小
     func zoomOut() {
         let cameraUpdate = GMSCameraUpdate.zoomOut()
         animate(with: cameraUpdate)
     }
 
+    //  根据线路信息显示线路，起点终点
     func showRoutes(_ detailModel: CTGuidanceDetailModel?) {
         clear()
         guard let detailModel = detailModel else { return }

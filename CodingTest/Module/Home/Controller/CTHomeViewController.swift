@@ -27,7 +27,6 @@ class CTHomeViewController: CTBaseViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    
     deinit {
         self.viewModel.stopNotifier()
     }
@@ -43,6 +42,7 @@ extension CTHomeViewController {
 }
 
 extension CTHomeViewController {
+    // 订阅ViewModel事件
     func configEventSubscribe() {
         self.viewModel.eventModel.subscribe(onNext: { [weak self] event in
             self?.configViewModelEvent(event)
@@ -55,6 +55,7 @@ extension CTHomeViewController {
         self.viewModel.netStatus.bind(to: self.itemView.netStatus).disposed(by: rx.disposeBag)
     }
 
+    // 订阅View事件
     func configViewModelEvent(_ event: CTHomeViewModelEventType) {
         switch event {
             case .showCurLocation:

@@ -58,7 +58,7 @@ public extension UIScreen {
     }
 
     /// iphoneX 顶部的高度
-    static var top: CGFloat { ////适配iPhoneX
+    static var top: CGFloat {
         return UIScreen.isIPhoneX ? 24 : 0 // 24是 x 比普通屏幕多的部分
     }
 

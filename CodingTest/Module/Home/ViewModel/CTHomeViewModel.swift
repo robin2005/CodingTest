@@ -67,7 +67,7 @@ extension CTHomeViewModel {
     // 网络监听
     func startNotifier() {
         do {
-            reachability = try? Reachability()
+            reachability = try? Reachability(hostname: "google.com")
             NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
             try reachability?.startNotifier()
         } catch {
