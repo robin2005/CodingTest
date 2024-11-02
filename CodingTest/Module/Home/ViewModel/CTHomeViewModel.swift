@@ -68,8 +68,8 @@ extension CTHomeViewModel {
     func startNotifier() {
         do {
             reachability = try? Reachability()
-            try reachability?.startNotifier()
             NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+            try reachability?.startNotifier()
         } catch {
             CTLog.info("无法启动通知")
         }

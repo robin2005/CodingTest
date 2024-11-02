@@ -1,7 +1,7 @@
 
 # CodingTest
 
-<img src="Screenshots/logo.png" width="50%"/>
+<img src="Screenshots/logo.png" width="20%"/>
 
 
 ## 程序摘要
@@ -36,8 +36,9 @@
 ## 应用程序的截图
 
 
-<img src="Screenshots/screenshot0.png" width="40%"/>
-<img src="Screenshots/screenshot1.png" width="40%"/>
-<img src="Screenshots/screenshot2.png" width="40%"/>
-<img src="Screenshots/screenshot3.png" width="40%"/>
-<img src="Screenshots/screenshot4.png" width="40%"/>
+<img src="Screenshots/screenshot0.png" width="30%"/>
+<img src="Screenshots/screenshot1.png" width="30%"/>
+<img src="Screenshots/screenshot2.png" width="30%"/>
+<img src="Screenshots/screenshot3.png" width="30%"/>
+<img src="Screenshots/screenshot4.png" width="30%"/>
+<img src="Screenshots/screenshot5.png" width="30%"/>
