@@ -9,6 +9,7 @@
 import CoreLocation
 import GoogleMaps
 import GoogleNavigation
+import Reachability
 import RxRelay
 
 // ViewModel 事件回调
@@ -21,6 +22,8 @@ class CTHomeViewModel: ALOBaseViewModel {
     lazy var permission = CTPermissionUtils()
     lazy var geocoder = GMSGeocoder()
     lazy var eventModel: BehaviorRelay<CTHomeViewModelEventType> = BehaviorRelay(value: .none)
+    lazy var netStatus: BehaviorRelay<Bool> = BehaviorRelay(value: true)
+    var reachability: Reachability?
 }
 
 // MARK: - Permissions
@@ -59,6 +62,37 @@ extension CTHomeViewModel {
                 }
             }
         }
+    }
+
+    // 网络监听
+    func startNotifier() {
+        do {
+            reachability = try? Reachability()
+            try reachability?.startNotifier()
+            NotificationCenter.default.addObserver(self, selector: #selector(reachabilityChanged(note:)), name: .reachabilityChanged, object: reachability)
+        } catch {
+            CTLog.info("无法启动通知")
+        }
+    }
+
+    // 关闭监听
+    func stopNotifier() {
+        reachability?.stopNotifier()
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    // 监听通知
+    @objc func reachabilityChanged(note: Notification) {
+        let reachability = note.object as! Reachability
+        switch reachability.connection {
+        case .wifi:
+            CTLog.info("通过WiFi连接")
+        case .cellular:
+            CTLog.info("通过蜂窝网络连接")
+        case .unavailable:
+            CTLog.info("网络不可达")
+        }
+        netStatus.accept(reachability.connection != .unavailable)
     }
 }
 

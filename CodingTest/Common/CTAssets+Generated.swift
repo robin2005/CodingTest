@@ -39,6 +39,7 @@ internal enum Asset {
     internal static let maker = ImageAsset(name: "maker")
     internal static let menu = ImageAsset(name: "menu")
     internal static let myPosition = ImageAsset(name: "myPosition")
+    internal static let netErr = ImageAsset(name: "netErr")
     internal static let origin = ImageAsset(name: "origin")
     internal static let share = ImageAsset(name: "share")
     internal static let zoomIn = ImageAsset(name: "zoomIn")

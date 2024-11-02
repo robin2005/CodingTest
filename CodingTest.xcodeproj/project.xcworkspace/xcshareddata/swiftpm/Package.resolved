@@ -1,6 +1,15 @@
 {
-  "originHash" : "4a14f66be460a74e8a9ec8cc18402d4ca1817efede28c746854a67c89ed44890",
+  "originHash" : "c2f599d80cc964bfd273d4a4e3eec3b5a57e8e2247cc47bdb8085e0255d48824",
   "pins" : [
+    {
+      "identity" : "fmdb",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ccgus/fmdb",
+      "state" : {
+        "revision" : "1227a3fa2b9916bfd75fe380eb45cd210e69e251",
+        "version" : "2.7.12"
+      }
+    },
     {
       "identity" : "ios-maps-sdk",
       "kind" : "remoteSourceControl",
@@ -35,6 +44,15 @@
       "state" : {
         "revision" : "6134a640808db7390d3dfcb32ef5f0a12b7a644d",
         "version" : "5.2.2"
+      }
+    },
+    {
+      "identity" : "reachability.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://gitcode.com/gh_mirrors/re/Reachability.swift",
+      "state" : {
+        "branch" : "master",
+        "revision" : "7cbd73f46a7dfaeca079e18df7324c6de6d1834a"
       }
     },
     {

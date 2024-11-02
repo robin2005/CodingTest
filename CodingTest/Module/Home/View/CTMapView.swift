@@ -75,7 +75,6 @@ extension CTMapView {
         if status == .OK {
             navigator?.isGuidanceActive = true
             cameraMode = .following
-//            locationSimulator?.simulateLocationsAlongExistingRoute()
         } else {
             stopGuidance()
         }
@@ -89,7 +88,6 @@ extension CTMapView {
         roadSnappedLocationProvider?.stopUpdatingLocation()
         cameraMode = .following
         showCurLocation()
-//        locationSimulator?.stopSimulation()
     }
 
     func showCurLocation() {

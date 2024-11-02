@@ -19,12 +19,11 @@ class CTHomeViewController: CTBaseViewController {
         configItemView()
         configEventSubscribe()
         self.viewModel.showTermsAndConditionsDialogIfNeeded()
+        self.viewModel.startNotifier()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        self.itemView.showCurLocation()
+    deinit {
+        self.viewModel.stopNotifier()
     }
 }
 
@@ -46,6 +45,8 @@ extension CTHomeViewController {
         self.itemView.eventModel.subscribe(onNext: { [weak self] event in
             self?.configViewEvent(event)
         }).disposed(by: rx.disposeBag)
+
+        self.viewModel.netStatus.bind(to: self.itemView.netStatus).disposed(by: rx.disposeBag)
     }
 
     func configViewModelEvent(_ event: CTHomeViewModelEventType) {

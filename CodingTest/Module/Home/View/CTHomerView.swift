@@ -29,15 +29,18 @@ class CTHomeView: CTBaseView {
     private lazy var bottomBar = CTHomeBottomBarView()
     private lazy var rightMenuBar = CTHomerMenuBarView()
     private lazy var loadingView = CTHomeLoadingView()
+    private lazy var netErrView = bulidNetErr()
 
-    var eventModel: BehaviorRelay<CTHomeViewEventType> = BehaviorRelay(value: .none)
-
-    var travelMode: BehaviorRelay<GMSNavigationTravelMode> = BehaviorRelay(value: .walking)
     private var isGuidance: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     private var isLoading: BehaviorRelay<Bool> = BehaviorRelay(value: false)
 
     private var detailModel = CTGuidanceDetailModel()
     private var preNavState: GMSNavigationNavState?
+
+    var eventModel: BehaviorRelay<CTHomeViewEventType> = BehaviorRelay(value: .none)
+    var travelMode: BehaviorRelay<GMSNavigationTravelMode> = BehaviorRelay(value: .walking)
+    var netStatus: BehaviorRelay<Bool> = BehaviorRelay(value: true)
+
     var originAddress: GMSAddress?
     var selectAddress: GMSAddress? {
         didSet {
@@ -54,6 +57,7 @@ extension CTHomeView {
         addSubview(bottomBar)
         addSubview(loadingView)
         addSubview(rightMenuBar)
+        addSubview(netErrView)
         configEvent()
         copnfigSubscribe()
     }
@@ -74,6 +78,11 @@ extension CTHomeView {
             maker.centerX.equalToSuperview()
             maker.bottom.left.equalToSuperview()
         }
+        netErrView.snp.remakeConstraints { maker in
+            maker.centerX.left.right.equalTo(rightMenuBar)
+            maker.bottom.equalTo(rightMenuBar.snp.top).offset(-16)
+            maker.height.equalTo(40)
+        }
     }
 }
 
@@ -87,6 +96,17 @@ extension CTHomeView {
             roadSnappedLocationProvider.add(self)
         }
         return mapView
+    }
+
+    func bulidNetErr() -> UIButton {
+        let button = UIButton(type: .custom)
+        button.setImage(Asset.Icons.netErr.image, for: .normal)
+        button.backgroundColor = Asset.Colors.viewSubBgColor.color
+        button.layer.cornerRadius = 5
+        button.layer.masksToBounds = true
+        button.isUserInteractionEnabled = false
+        button.isHidden = true
+        return button
     }
 }
 
@@ -103,6 +123,10 @@ extension CTHomeView {
 
     // 配置订阅事件
     func copnfigSubscribe() {
+        netStatus.subscribe(onNext: { [weak self] netStatus in
+            self?.netErrView.isHidden = netStatus
+        }).disposed(by: rx.disposeBag)
+
         isLoading.subscribe(onNext: { [weak self] isLoading in
             isLoading ? self?.loadingView.startAnimating() : self?.loadingView.stopAnimating()
         }).disposed(by: rx.disposeBag)
